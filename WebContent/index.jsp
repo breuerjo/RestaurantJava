@@ -13,10 +13,9 @@
 
 Connection con = null;
 try {
-	String connectionURL = "jdbc:mysql:host=localhost;dbname=restaurant_db;charset=utf8', 'root', ''";
     Connection connection = null; 
     Class.forName("com.mysql.jdbc.Driver").newInstance(); 
-    connection = DriverManager.getConnection(connectionURL, "root", "");
+    connection =DriverManager.getConnection("jdbc:mysql://localhost/restaurant_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
     if(!connection.isClosed())
          out.println("Successfully connected to " + "MySQL server using TCP/IP...");
     connection.close();
