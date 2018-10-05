@@ -26,18 +26,19 @@ input[type=text], input[type=password] {
 }
 
 #Essen{
-	margin-left: 120px;
-	margin-right: 120px;
+	margin-left: 80px;
+	margin-right: 80px;
 	
 }
+
 #Cocktails{
-	margin-left: 120px;
-	margin-right: 120px;
+	margin-left: 80px;
+	margin-right: 80px;
 }
 
 #Dessert{
-	margin-left:120px;
-	margin-right:120px;
+	margin-left: 80px;
+	margin-right: 80px;
 }
 
 #Anmeldung{

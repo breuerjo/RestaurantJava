@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Besucherklicker")
 public class Besucherklicker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static int zaehler = 0;
+    private static int zaehler;
 	
     public Besucherklicker() {
         super();
@@ -22,7 +22,10 @@ public class Besucherklicker extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Integer hitsCount = (Integer)application.getAttribute("hitCounter");
-		zaehler++;
+		String login = request.getParameter("login");
+		if("1".equals(login)) {
+			zaehler++;
+		}
 		PrintWriter out = response.getWriter();
 		//String contextParameterName = "anfangswert01";
 		//String contextParameterWert = this.getInitParameter(contextParameterName);
