@@ -2,7 +2,7 @@
 <html>
 <head>
 
-  <title>Speisekarte</title>
+  <title>Inhaber-Übersicht</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -14,6 +14,7 @@
 </head>
 
 <%@ page import="java.sql.*"%>
+
 
 <script>
 	function getZeitraum(){
@@ -27,11 +28,21 @@
     
 </script>
 
+<jsp:useBean id= "DateBean" scope= "page" class= "beans.DateBean" type= "beans.DateBean" />
+<jsp:useBean id= "InhaberBean" scope= "page" class= "beans.InhaberBean" type= "beans.InhaberBean" />
 
 <body id="InhaberInhalt" data-spy="scroll" data-target=".navbar" data-offset="50">
 
 	<div class="w3-row-padding w3-padding-16 w3-center">
-		<h1><b>Wichtige Informationen für den Inhaber</b></h1>
+		<h1><b>Wichtige Informationen für 
+		<jsp:getProperty name = "InhaberBean" property = "vorname"/>
+		<jsp:getProperty name = "InhaberBean" property = "nachname"/>
+		
+		zum aktuellen Zeitpunkt:</b></h1>      	
+		
+		<jsp:getProperty name = "DateBean" property = "date"/>
+		
+				
 	</div>
 	
 	<%
@@ -200,9 +211,9 @@
 </body>
 
 <footer class="container-fluid md-12 text center navbar-fixed-bottom">
-  	<div class="col-md-2 navbar-text pull-left"><p><a href="Impressum.php"><b>Impressum</b></a></p></div>
+  	<div class="col-md-2 navbar-text pull-left"><p><a href="../restaurant/src/Impressum.php"><b>Impressum</b></a></p></div>
   	<div id="testDiv" class="col-md-7 navbar-text pull-left"><p><b></b></p></div> 
-  	<div class="col-md-2 navbar-text pull-right"><p><a href="Kontakt.php"><b>Kontakt</b></a></p></div>
+  	<div class="col-md-2 navbar-text pull-right"><p><a href="../restaurant/src/Kontakt.php"><b>Kontakt</b></a></p></div>
 </footer>
 
 <script>

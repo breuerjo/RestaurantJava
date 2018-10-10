@@ -1,6 +1,6 @@
  body {
 	margin: auto;
-	background-color: #EBECEB;
+	background-color: #FFFFFF;
   }
  
 #restaurant-name{
@@ -8,7 +8,7 @@
 } 
 
 form {
-    border: 3px solid #f1f1f1;
+    border: 3px solid #FFFFFF;
 }
 
 input[type=text], input[type=password] {
@@ -47,12 +47,12 @@ input[type=text], input[type=password] {
 }
 
 #Login{
-	background-color: #EBECEB;
+	background-color: #FFFFFF;
 	
 }
 
 #Speisekarte{
-	background-color: #EBECEB;
+	background-color: #FFFFFF;
 }
 #Speisen{
 	font-size: 50px;
@@ -64,35 +64,43 @@ input[type=text], input[type=password] {
 }
 
 #Footer_index{
-	background-color: #A1EDB8;
+	background-color: #4F8A10;
 	margin-left:120px;
 	margin-right:120px;
 	margin-bottom:10px;
 	height: 50px;
 	text-align: center;
+	color: white;
+}
+
+.white{
+	color: white;
 }
 
 
 footer{
 	position: fixed;
 	bottom: 0 !important;
-	background-color: #A1EDB8;
+	background-color: #4F8A10;
 	width:100%;
 	height: 50px;
 	text-align: center;
+	color: white;
 }
 
 #footer1{
 	position: fixed;
 	bottom: 0 !important;
-	background-color: #A1EDB8;
+	background-color: #4F8A10;
 	width:100%;
 	height: 50px;
 	text-align: center;
+	color: white;
 }
 
 .navbar{
-	background-color: #A1EDB8;
+	background-color: #4F8A10;
+	color: white;
 }
 
  h4 {
@@ -161,7 +169,7 @@ table#Mitarbeiterübersicht_Tabelle th{
     width: 250px; /* Laenge des Balkens */
     hight: 20px;  /* Hoehe des Balkens */
     border-right: 1px solid black;
-    background: #A1EDB8 /* Balkenfarbe */
+    background: #4F8A10 /* Balkenfarbe */
 }
 
 
