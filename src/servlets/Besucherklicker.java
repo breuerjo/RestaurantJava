@@ -19,19 +19,13 @@ public class Besucherklicker extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Integer hitsCount = (Integer)application.getAttribute("hitCounter");
 		String login = request.getParameter("login");
 		if("1".equals(login)) {
 			zaehler++;
 		}
 		PrintWriter out = response.getWriter();
-		//String contextParameterName = "anfangswert01";
-		//String contextParameterWert = this.getInitParameter(contextParameterName);
-		//out.println("Der Context-Parameter " + contextParameterName + " hat den Wert " +contextParameterWert + ".");
 		out.println("<p><b>Besucher: "+zaehler+"</b></p>");
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	
