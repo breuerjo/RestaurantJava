@@ -36,7 +36,9 @@
 
 <body id="InhaberInhalt" data-spy="scroll" data-target=".navbar"
 	data-offset="50">
-	<br><br><br>
+	<br>
+	<br>
+	<br>
 	<div class="w3-row-padding w3-padding-16 w3-center">
 		<h1>
 			<b>Wichtige Informationen für <jsp:getProperty name="InhaberBean"
@@ -222,11 +224,13 @@
 			<h3>
 				<b>Durchschnittsbewertung in den letzten <%=zeitraum%> Tagen:
 				</b>
-				<%	//2 Nachkommatsellen kürzen
-					double durschBewertung = Double.parseDouble(resultSetBewertung.getString("AVG(bestellung_bewertung)"));
-					durschBewertung = durschBewertung * 100;
-					durschBewertung = Math.round(durschBewertung);
-					durschBewertung = durschBewertung / 100;
+				<%
+					//2 Nachkommatsellen kürzen
+								double durschBewertung = Double
+										.parseDouble(resultSetBewertung.getString("AVG(bestellung_bewertung)"));
+								durschBewertung = durschBewertung * 100;
+								durschBewertung = Math.round(durschBewertung);
+								durschBewertung = durschBewertung / 100;
 				%>
 			</h3>
 			<h3><%=durschBewertung%>
@@ -262,8 +266,10 @@
 					letzten <%=zeitraum%> Tagen:
 				</b>
 				<%
-					double anzahlBestellungen = Double.parseDouble(resultSetBestellungen.getString("COUNT(bestellung_id)"));
-							double anzahlGerichte = Double.parseDouble(resultSetAnzahlGerichteZeitraum.getString("COUNT(gericht.gericht_id)"));
+					double anzahlBestellungen = Double
+									.parseDouble(resultSetBestellungen.getString("COUNT(bestellung_id)"));
+							double anzahlGerichte = Double
+									.parseDouble(resultSetAnzahlGerichteZeitraum.getString("COUNT(gericht.gericht_id)"));
 							double durchschnittAnzahlGerichteproBestellung = anzahlGerichte / anzahlBestellungen;
 							//2 Nachkommastellen kürzen
 							durchschnittAnzahlGerichteproBestellung = durchschnittAnzahlGerichteproBestellung * 100;
