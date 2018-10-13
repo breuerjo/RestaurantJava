@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../restaurant/css/style.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
@@ -34,7 +34,7 @@
 	type="beans.DateBean" />
 <jsp:useBean id="InhaberBean" scope="page" class="beans.InhaberBean"
 	type="beans.InhaberBean" />
-	
+
 <body id="InhaberInhalt" data-spy="scroll" data-target=".navbar"
 	data-offset="50">
 
@@ -120,7 +120,7 @@
 			}
 		%>
 	</div>
-
+	<br> <br>
 	<div class="w3-row-padding w3-padding-16 w3-center w3-margin-top">
 		<h2>
 			<b>Zeitraum-Infos:</b>
@@ -141,33 +141,32 @@
 			gewählter Zeitraum:
 			<%=zeitraum%>
 		</h3>
-		<br> <br> <br> <br>
+		<br> <br> 
 	</div>
 
 	<div class="w3-row-padding w3-padding-16 w3-center">
-
 		<%
-			//Anzahl Bestellungen letzte 7 Tage
+			//Anzahl Bestellungen Zeitraum
 					String sqlBestellungen = "SELECT COUNT(bestellung_id) FROM bestellung WHERE bestellung_datum BETWEEN NOW() - INTERVAL "
 							+ zeitraum + " DAY AND NOW()";
 					PreparedStatement statementBestellungen = connection1.prepareStatement(sqlBestellungen);
-					ResultSet resultSet = statementBestellungen.executeQuery();
+					ResultSet resultSetBestellungen = statementBestellungen.executeQuery();
 
-					if (resultSet.next()) {
+					if (resultSetBestellungen.next()) {
 		%>
 		<div class="w3-third">
 			<h3>
 				<b>Anzahl Bestellungen in letzten <%=zeitraum%> Tagen:
 				</b>
 			</h3>
-			<h3><%=resultSet.getString("COUNT(bestellung_id)")%>
+			<h3><%=resultSetBestellungen.getString("COUNT(bestellung_id)")%>
 				Bestellungen
 			</h3>
 		</div>
 		<%
 			}
 
-					//Anzahl Gäste letzte 7 Tage
+					//Anzahl Gäste Zeitraum
 					String sqlGaeste = "SELECT COUNT(id) FROM gaeste WHERE datum BETWEEN NOW() - INTERVAL " + zeitraum
 							+ " DAY AND NOW()";
 					PreparedStatement statementGaeste = connection1.prepareStatement(sqlGaeste);
@@ -187,7 +186,7 @@
 		<%
 			}
 
-					//Einnahmen letzte 7 Tage
+					//Einnahmen Zeitraum
 					String sqlEinnahmen = "SELECT SUM(gericht_preis) FROM gericht INNER JOIN bestellung_gerichte on bestellung_gerichte.gericht_id = gericht.gericht_id INNER JOIN bestellung on bestellung_gerichte.bestellung_id = bestellung.bestellung_id WHERE bestellung.bestellung_datum BETWEEN NOW() - INTERVAL "
 							+ zeitraum + " DAY AND NOW()";
 					PreparedStatement statementEinnahmen = connection1.prepareStatement(sqlEinnahmen);
@@ -203,27 +202,82 @@
 			<h3><%=resultSetEinnahmen.getString("SUM(gericht_preis)")%>&euro;
 			</h3>
 		</div>
+
+	</div> <!-- Reihe beenden -->
+	<br><br>
+	<div class="w3-row-padding w3-padding-16 w3-center">
 		<%
 			}
+					//Durchschnittbewertung Zeitraum
+					String sqlBewertung = "SELECT AVG(bestellung_bewertung) From bestellung WHERE bestellung_datum BETWEEN NOW() - INTERVAL "
+							+ zeitraum + " DAY AND NOW()";
+					PreparedStatement statementBewertung = connection1.prepareStatement(sqlBewertung);
+					ResultSet resultSetBewertung = statementBewertung.executeQuery();
+
+					if (resultSetBewertung.next()) {
 		%>
-	</div>
+		<div class="w3-third">
+			<h3>
+				<b>Durchschnittsbewertung in den letzten <%=zeitraum%> Tagen:
+				</b>
+			</h3>
+			<h3><%=resultSetBewertung.getString("AVG(bestellung_bewertung)")%>
+			</h3>
+		</div>
 
+		<%
+			}
+					//Anzahl Gerichte Zeitraum
+					String sqlAnzahlGerichteZeitraum = "SELECT COUNT(gericht.gericht_id) FROM bestellung INNER JOIN bestellung_gerichte on bestellung.bestellung_id = bestellung_gerichte.bestellung_id INNER JOIN gericht on gericht.gericht_id = bestellung_gerichte.gericht_id WHERE bestellung.bestellung_datum BETWEEN NOW() - INTERVAL "
+							+ zeitraum + " DAY AND NOW()";
+					PreparedStatement statementAnzahlGerichteZeitraum = connection1.prepareStatement(sqlAnzahlGerichteZeitraum);
+					ResultSet resultSetAnzahlGerichteZeitraum = statementAnzahlGerichteZeitraum.executeQuery();
 
-	<div class="w3-row-padding w3-padding-16 w3-center">
-		<a href="../restaurant/src/Startseite.php"><Button
-				class="w3-button w3-blue">Zur Startseite</Button></a>
-	</div>
+					if (resultSetAnzahlGerichteZeitraum.next()) {
+		%>
+		<div class="w3-third">
+			<h3>
+				<b>Anzahl Gerichte in den letzten <%=zeitraum%> Tagen:
+				</b>
+			</h3>
+			<h3><%=resultSetAnzahlGerichteZeitraum.getString("COUNT(gericht.gericht_id)")%>
+			</h3>
+		</div>
+	<%
+		}
+	%>
+	
+		<div class="w3-third">
+			<h3>
+				<b>Durchschnittsanzahl an Gerichten pro Bestellung in den letzten <%=zeitraum%> Tagen:
+				</b>
+				<% int anzahlBestellungen = Integer.parseInt(resultSetBestellungen.getString("COUNT(bestellung_id)"));
+				   int anzahlGerichte = Integer.parseInt(resultSetAnzahlGerichteZeitraum.getString("COUNT(gericht.gericht_id)"));
+				   int durchschnittAnzahlGerichteproBestellung = anzahlGerichte / anzahlBestellungen;
+				%>
+			</h3>
+			<h3><%=durchschnittAnzahlGerichteproBestellung%>
+			</h3>
+		</div>
+
+	</div><!-- Reihe beenden -->
+
 	<%
 		connection1.close();
-			}
-		}
+			}//if(!connection1.isClosed())
+		}//try
+		
 		//Keine Verbindung möglich:
 		catch (Exception ex) {
 			out.println("Unable to connect to database" + ex);
 		}
 	%>
-	<br>
-	<br>
+	<!-- BUtton zur Startseite in einer neuen Zeile -->
+	<div class="w3-row-padding w3-padding-16 w3-center">
+		<a href="../restaurant/src/Startseite.php"><Button
+				class="w3-button w3-blue">Zur Startseite</Button></a>
+	</div>
+	<br><br><br>
 </body>
 
 <footer class="container-fluid md-12 text center navbar-fixed-bottom">
