@@ -18,7 +18,6 @@
 
 <%@ page import="java.sql.*"%>
 
-
 <script>
 	function getZeitraum() {
 
@@ -37,7 +36,7 @@
 
 <body id="InhaberInhalt" data-spy="scroll" data-target=".navbar"
 	data-offset="50">
-
+	<br><br><br>
 	<div class="w3-row-padding w3-padding-16 w3-center">
 		<h1>
 			<b>Wichtige Informationen für <jsp:getProperty name="InhaberBean"
@@ -120,7 +119,8 @@
 			}
 		%>
 	</div>
-	<br> <br>
+	<br>
+	<br>
 	<div class="w3-row-padding w3-padding-16 w3-center w3-margin-top">
 		<h2>
 			<b>Zeitraum-Infos:</b>
@@ -141,7 +141,7 @@
 			gewählter Zeitraum:
 			<%=zeitraum%>
 		</h3>
-		<br> <br> 
+		<br> <br>
 	</div>
 
 	<div class="w3-row-padding w3-padding-16 w3-center">
@@ -203,8 +203,10 @@
 			</h3>
 		</div>
 
-	</div> <!-- Reihe beenden -->
-	<br><br>
+	</div>
+	<!-- Reihe beenden -->
+	<br>
+	<br>
 	<div class="w3-row-padding w3-padding-16 w3-center">
 		<%
 			}
@@ -220,8 +222,14 @@
 			<h3>
 				<b>Durchschnittsbewertung in den letzten <%=zeitraum%> Tagen:
 				</b>
+				<%	//2 Nachkommatsellen kürzen
+					double durschBewertung = Double.parseDouble(resultSetBewertung.getString("AVG(bestellung_bewertung)"));
+					durschBewertung = durschBewertung * 100;
+					durschBewertung = Math.round(durschBewertung);
+					durschBewertung = durschBewertung / 100;
+				%>
 			</h3>
-			<h3><%=resultSetBewertung.getString("AVG(bestellung_bewertung)")%>
+			<h3><%=durschBewertung%>
 			</h3>
 		</div>
 
@@ -230,7 +238,8 @@
 					//Anzahl Gerichte Zeitraum
 					String sqlAnzahlGerichteZeitraum = "SELECT COUNT(gericht.gericht_id) FROM bestellung INNER JOIN bestellung_gerichte on bestellung.bestellung_id = bestellung_gerichte.bestellung_id INNER JOIN gericht on gericht.gericht_id = bestellung_gerichte.gericht_id WHERE bestellung.bestellung_datum BETWEEN NOW() - INTERVAL "
 							+ zeitraum + " DAY AND NOW()";
-					PreparedStatement statementAnzahlGerichteZeitraum = connection1.prepareStatement(sqlAnzahlGerichteZeitraum);
+					PreparedStatement statementAnzahlGerichteZeitraum = connection1
+							.prepareStatement(sqlAnzahlGerichteZeitraum);
 					ResultSet resultSetAnzahlGerichteZeitraum = statementAnzahlGerichteZeitraum.executeQuery();
 
 					if (resultSetAnzahlGerichteZeitraum.next()) {
@@ -243,30 +252,37 @@
 			<h3><%=resultSetAnzahlGerichteZeitraum.getString("COUNT(gericht.gericht_id)")%>
 			</h3>
 		</div>
-	<%
-		}
-	%>
-	
+		<%
+			}
+		%>
+
 		<div class="w3-third">
 			<h3>
-				<b>Durchschnittsanzahl an Gerichten pro Bestellung in den letzten <%=zeitraum%> Tagen:
+				<b>Durchschnittsanzahl an Gerichten pro Bestellung in den
+					letzten <%=zeitraum%> Tagen:
 				</b>
-				<% int anzahlBestellungen = Integer.parseInt(resultSetBestellungen.getString("COUNT(bestellung_id)"));
-				   int anzahlGerichte = Integer.parseInt(resultSetAnzahlGerichteZeitraum.getString("COUNT(gericht.gericht_id)"));
-				   int durchschnittAnzahlGerichteproBestellung = anzahlGerichte / anzahlBestellungen;
+				<%
+					double anzahlBestellungen = Double.parseDouble(resultSetBestellungen.getString("COUNT(bestellung_id)"));
+							double anzahlGerichte = Double.parseDouble(resultSetAnzahlGerichteZeitraum.getString("COUNT(gericht.gericht_id)"));
+							double durchschnittAnzahlGerichteproBestellung = anzahlGerichte / anzahlBestellungen;
+							//2 Nachkommastellen kürzen
+							durchschnittAnzahlGerichteproBestellung = durchschnittAnzahlGerichteproBestellung * 100;
+							durchschnittAnzahlGerichteproBestellung = Math.round(durchschnittAnzahlGerichteproBestellung);
+							durchschnittAnzahlGerichteproBestellung = durchschnittAnzahlGerichteproBestellung / 100;
 				%>
 			</h3>
 			<h3><%=durchschnittAnzahlGerichteproBestellung%>
 			</h3>
 		</div>
 
-	</div><!-- Reihe beenden -->
+	</div>
+	<!-- Reihe beenden -->
 
 	<%
 		connection1.close();
-			}//if(!connection1.isClosed())
-		}//try
-		
+			} //if(!connection1.isClosed())
+		} //try
+
 		//Keine Verbindung möglich:
 		catch (Exception ex) {
 			out.println("Unable to connect to database" + ex);
@@ -277,7 +293,9 @@
 		<a href="../restaurant/src/Startseite.php"><Button
 				class="w3-button w3-blue">Zur Startseite</Button></a>
 	</div>
-	<br><br><br>
+	<br>
+	<br>
+	<br>
 </body>
 
 <footer class="container-fluid md-12 text center navbar-fixed-bottom">
